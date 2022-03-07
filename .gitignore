@@ -1,2 +1,12 @@
+# IDE files
+.idea/
+.code/
+
+# Python files
 .venv/
 __pycache__
+*.egg-info
+
+# pip packaging files
+build/
+dist/
