@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="2b2t",
-    version="0.1.0",
+    version="0.2.0",
     description="A 2b2t toolbox.",
     long_description=(pathlib.Path(__file__).parent / "README.md").read_text(),
     long_description_content_type="text/markdown",
@@ -24,6 +24,7 @@ setup(
     entry_points={
         "console_scripts": [
             "2b2t=bbtt.__main__:main",
+            "2b2t.coord=bbtt.coord.__main__:main"
         ]
     },
 )
