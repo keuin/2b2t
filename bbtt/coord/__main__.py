@@ -31,7 +31,7 @@ def image_to_world(loc, image_type=RadarImageType.RADAR_8K) -> tuple[int, int]:
     x, z = loc
     off_x, off_z, chunks_per_pixel = image_type.value[0] // 2, image_type.value[1] // 2, image_type.value[2]
     x, z = x - off_x, z - off_z
-    return (x + 0.5) * 16 * chunks_per_pixel, (z + 0.5) * 16 * chunks_per_pixel
+    return int((x + 0.5) * 16 * chunks_per_pixel), int((z + 0.5) * 16 * chunks_per_pixel)
 
 
 def main():
@@ -39,24 +39,21 @@ def main():
     while True:
         try:
             inp = input('> ').strip().split(' ') or None
-            func = {
-                'i2w': image_to_world,
-                'image2world': image_to_world,
-                'w2i': world_to_image,
-                'world2image': world_to_image
-            }.get(inp[0])
-            if not func:
-                cmd = inp[0] if len(inp) > 0 else None
-                if cmd == 'q' or cmd == 'quit' or cmd == 'exit':
-                    return
-                elif cmd == 'h' or cmd == 'help':
-                    print(USAGE)
-                elif not cmd:
-                    continue
-                else:
-                    print('Invalid command. Run \'help\' or \'h\' for usage description.')
-                continue
-            print(func((int(inp[1]), int(inp[2]))))
+            cmd = inp[0] if len(inp) > 0 else None
+            if cmd == 'i2w' or cmd == 'image2world':
+                world_x, world_y = image_to_world((int(inp[1]), int(inp[2])))
+                print(f'World: ({world_x}, {world_y})')
+                print(f'Nether: ({world_x // 8}, {world_y // 8})')
+            elif cmd == 'w2i' or cmd == 'world2image':
+                print(world_to_image((int(inp[1]), int(inp[2]))))
+            elif cmd == 'q' or cmd == 'quit' or cmd == 'exit':
+                break
+            elif cmd == 'h' or cmd == 'help':
+                print(USAGE)
+            elif not cmd:
+                pass
+            else:
+                print('Invalid command. Run \'help\' or \'h\' for usage description.')
         except KeyboardInterrupt:
             print()
             pass  # Ignore Ctrl-C event
