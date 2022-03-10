@@ -36,9 +36,9 @@ def image_to_world(loc, image_type=RadarImageType.RADAR_8K) -> tuple[int, int]:
 
 def main():
     """ REPL """
-    try:
-        while True:
-            inp = input('>').strip().split(' ') or None
+    while True:
+        try:
+            inp = input('> ').strip().split(' ') or None
             func = {
                 'i2w': image_to_world,
                 'image2world': image_to_world,
@@ -51,12 +51,15 @@ def main():
                     return
                 elif cmd == 'h' or cmd == 'help':
                     print(USAGE)
+                elif not cmd:
+                    continue
                 else:
-                    print('Invalid command. Run \'help\' for usage description.')
+                    print('Invalid command. Run \'help\' or \'h\' for usage description.')
                 continue
             print(func((int(inp[1]), int(inp[2]))))
-    except KeyboardInterrupt:
-        pass  # Ignore Ctrl-C event
+        except KeyboardInterrupt:
+            print()
+            pass  # Ignore Ctrl-C event
 
 
 if __name__ == '__main__':
